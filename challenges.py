@@ -30,12 +30,19 @@ def formView():
     return html_form
 
 #Task 3.2 : Processing Form Data
+#run program again and enter localhost:5000/form
 @app.route('/result', methods = ['GET', 'POST'])
 def resultView():
     if request.method == "GET":
         ingg = request.args.get("ingredient")
     # Make an API request to Recipe API for the ingredient entered in the form and display the recipe results
-    return ingg
+    params = {}
+    params["i"] = ingg
+    response = requests.get("http://www.recipepuppy.com/api/", params = params)
+    response_json = json.loads(response.text)
+    #convert to a string
+    response_str = str(response_json)
+    return response_str
 
 
 if __name__ == '__main__':
